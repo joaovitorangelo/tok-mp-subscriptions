@@ -1,0 +1,11 @@
+{
+    "name": "tok/mp-subscriptions",
+    "description": "Integração com Mercado Pago e Melhor Envio para assinaturas personalizadas",
+    "type": "wordpress-plugin",
+    "autoload": {
+        "psr-4": {
+            "Tok\\MPSubscriptions\\": "src/"
+        }
+    },
+    "require": {}
+}
