@@ -19,21 +19,63 @@ defined('ABSPATH') || exit;
 class MercadoPago {
 
     private $access_token;
+    
+    private $client;
 
     public function init() {
         $this->access_token = Plugin::get_option('MP_ACCESS_TOKEN');
+        $this->client = new HttpClient($this->access_token);
         add_action('init', [$this, 'process_subscription']);
     }
 
     public function process_subscription() {
-        if(isset($_POST['tok_create_subscription'])) {
-            $plan_id = sanitize_text_field($_POST['plan_id']);
+        if( isset( $_POST['tok_create_subscription'] ) ) {
+            $plan_id = sanitize_text_field( $_POST['plan_id'] );
             $user_id = get_current_user_id();
 
             $response = $this->create_subscription($plan_id, $user_id);
         }
     }
 
+    /**
+     * get_subscription_by_email
+     * 
+     * Busca Assinatura pelo E-mail
+     */
+    private function get_subscription_by_email($email) {
+        $url = 'https://api.mercadopago.com/preapproval/search?payer_email=' . urlencode($email);
+        return $this->client->get($url);
+    }
+
+    /**
+     * create_plan
+     * 
+     * Cria um Plano de Assinatura
+     */
+    private function create_plan() {
+        $url = 'https://api.mercadopago.com/preapproval_plan';
+
+        $body = [
+            "reason" => "Plano Premium da Tok Digital", // Nome do plano
+            "auto_recurring" => [
+                "frequency" => 1,                       // Frequência do pagamento
+                "frequency_type" => "months",           // "days", "months"
+                "transaction_amount" => 50,             // Valor
+                "currency_id" => "BRL",                 // Moeda
+                "start_date" => gmdate("c"),            // Agora
+                "end_date" => gmdate("c", strtotime("+1 year")) // expira em 1 ano
+            ],
+            "back_url" => home_url("/retorno-assinatura"), // Para onde redirecionar após assinatura
+        ];
+
+        return $this->client->post($url, $body);
+    }
+
+    /**
+     * create_subscription
+     * 
+     * Vincula o cliente em um Plano de Assinatura
+     */
     private function create_subscription($plan_id, $user_id) {
         $url = 'https://api.mercadopago.com/preapproval';
         $body = [
@@ -41,14 +83,6 @@ class MercadoPago {
             'payer_email' => wp_get_current_user()->user_email
         ];
 
-        $response = wp_remote_post($url, [
-            'body'    => json_encode($body),
-            'headers' => [
-                'Authorization' => 'Bearer '.$this->access_token,
-                'Content-Type'  => 'application/json'
-            ]
-        ]);
-
-        return json_decode(wp_remote_retrieve_body($response), true);
+        return $this->client->post($url, $body);
     }
 }

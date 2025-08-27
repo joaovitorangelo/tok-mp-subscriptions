@@ -24,10 +24,12 @@ class Plugin {
 
     private $admin;
     private $mp;
+    private $me;
 
     public function __construct() {
         $this->admin = new Admin();
         $this->mp    = new MercadoPago();
+        $this->me    = new MelhorEnvio();
     }
 
     public function run() {
@@ -36,6 +38,7 @@ class Plugin {
         }
 
         $this->mp->init();
+        $this->me->init();
     }
 
     public static function get_option($key, $default = '') {

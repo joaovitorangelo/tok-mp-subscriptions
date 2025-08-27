@@ -38,13 +38,13 @@ class Admin {
 
         add_settings_section(
             'mp_main_section',
-            'Configurações do Firebase / MP',
+            'Configurações do Mercado Pago / Melhor Envio',
             '__return_false',
             'mp-subscriptions-settings'
         );
 
-        $this->add_field('FIREBASE_API_KEY', 'FIREBASE_API_KEY');
-        $this->add_field('VAPIDKEY', 'VAPIDKEY');
+        $this->add_field('MP_ACCESS_TOKEN', 'MP_ACCESS_TOKEN');
+        $this->add_field('ME_ACCESS_TOKEN', 'ME_ACCESS_TOKEN');
         // Adicione outros campos conforme necessário
     }
 
