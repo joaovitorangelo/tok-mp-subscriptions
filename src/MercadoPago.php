@@ -25,17 +25,17 @@ class MercadoPago {
     public function init() {
         $this->access_token = Plugin::get_option('MP_ACCESS_TOKEN');
         $this->client = new HttpClient($this->access_token);
-        add_action('init', [$this, 'process_subscription']);
+        // add_action('init', [$this, 'process_subscription']);
     }
 
-    public function process_subscription() {
-        if( isset( $_POST['tok_create_subscription'] ) ) {
-            $plan_id = sanitize_text_field( $_POST['plan_id'] );
-            $user_id = get_current_user_id();
+    // public function process_subscription() {
+    //     if( isset( $_POST['tok_create_subscription'] ) ) {
+    //         $plan_id = sanitize_text_field( $_POST['plan_id'] );
+    //         $user_id = get_current_user_id();
 
-            $response = $this->create_subscription($plan_id, $user_id);
-        }
-    }
+    //         $response = $this->create_subscription($plan_id, $user_id);
+    //     }
+    // }
 
     /**
      * get_subscription_by_email
@@ -50,25 +50,14 @@ class MercadoPago {
     /**
      * create_plan
      * 
-     * Cria um Plano de Assinatura
+     * Cria um plano de assinatura.
+     * 
+     * Observação: o método deve ser definido como `private` para garantir a segurança do sistema, 
+     * evitando acessos externos à classe. Atualmente está `public` apenas para fins de teste.
      */
-    private function create_plan() {
+    public function create_plan($data) {
         $url = 'https://api.mercadopago.com/preapproval_plan';
-
-        $body = [
-            "reason" => "Plano Premium da Tok Digital", // Nome do plano
-            "auto_recurring" => [
-                "frequency" => 1,                       // Frequência do pagamento
-                "frequency_type" => "months",           // "days", "months"
-                "transaction_amount" => 50,             // Valor
-                "currency_id" => "BRL",                 // Moeda
-                "start_date" => gmdate("c"),            // Agora
-                "end_date" => gmdate("c", strtotime("+1 year")) // expira em 1 ano
-            ],
-            "back_url" => home_url("/retorno-assinatura"), // Para onde redirecionar após assinatura
-        ];
-
-        return $this->client->post($url, $body);
+        return $this->client->post($url, $data);
     }
 
     /**

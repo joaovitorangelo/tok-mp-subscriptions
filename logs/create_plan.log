@@ -1,0 +1,22 @@
+Array
+(
+    [id] => a8698d0297e6443c80212f53cab9b461
+    [back_url] => https://cervejaimbe.com.br/
+    [collector_id] => 1923849358
+    [application_id] => 4483457805093712
+    [reason] => Plano Teste da Cervejaria Imbe
+    [status] => active
+    [init_point] => https://www.mercadopago.com.br/subscriptions/checkout?preapproval_plan_id=a8698d0297e6443c80212f53cab9b461
+    [auto_recurring] => Array
+        (
+            [frequency] => 1
+            [frequency_type] => months
+            [transaction_amount] => 50
+            [currency_id] => BRL
+        )
+
+    [payment_methods_allowed] => Array
+        (
+        )
+
+)

@@ -43,6 +43,7 @@ class Admin {
             'mp-subscriptions-settings'
         );
 
+        $this->add_field('MP_PUBLIC_KEY', 'MP_PUBLIC_KEY');
         $this->add_field('MP_ACCESS_TOKEN', 'MP_ACCESS_TOKEN');
         $this->add_field('ME_ACCESS_TOKEN', 'ME_ACCESS_TOKEN');
         // Adicione outros campos conforme necessário
