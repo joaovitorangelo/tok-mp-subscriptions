@@ -34,7 +34,9 @@ class Admin {
     }
 
     public function register_settings() {
-        register_setting('mp_subscriptions_group', 'mp_settings');
+        register_setting('mp_subscriptions_group', 'mp_settings', [
+            'sanitize_callback' => [$this, 'sanitize_settings']
+        ]);
 
         add_settings_section(
             'mp_main_section',
@@ -62,7 +64,37 @@ class Admin {
 
     public function render_field($args) {
         $value = Plugin::get_option($args['id']);
-        echo '<input type="text" name="mp_settings['.esc_attr($args['id']).']" value="'.esc_attr($value).'" class="regular-text" />';
+        $sensitive = in_array($args['id'], ['MP_PUBLIC_KEY', 'MP_ACCESS_TOKEN', 'ME_ACCESS_TOKEN']);
+
+        // Se for sensível e já tiver valor, mostra placeholder ********
+        $display_value = $sensitive && !empty($value) ? '********' : $value;
+        $type = $sensitive ? 'password' : 'text';
+
+        echo '<input type="'.esc_attr($type).'" 
+                     name="mp_settings['.esc_attr($args['id']).']" 
+                     value="'.esc_attr($display_value).'" 
+                     class="regular-text" 
+                     autocomplete="off" />';
+    }
+
+    /**
+     * Sanitiza e criptografa as opções antes de salvar
+     */
+    public function sanitize_settings($settings) {
+        $encrypted = [];
+        $existing = get_option('mp_settings', []);
+
+        foreach ($settings as $key => $value) {
+            // Se o valor não estiver vazio e não for placeholder, criptografa
+            if (!empty($value) && $value !== '********') {
+                $encrypted[$key] = Plugin::encrypt_value($value);
+            } else {
+                // Mantém o valor já existente no banco
+                $encrypted[$key] = $existing[$key] ?? '';
+            }
+        }
+
+        return $encrypted;
     }
 
     public function render_settings_page() {
