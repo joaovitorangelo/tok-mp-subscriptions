@@ -77,3 +77,7 @@ O plugin segue uma estrutura modular baseada em namespaces:
 - Tok\MPSubscriptions\Plugin – Classe principal e ponto de entrada.
 - Tok\MPSubscriptions\Admin – Gerencia a interface de administração e configurações.
 - Tok\MPSubscriptions\MercadoPago – Integração com a API do Mercado Pago.
+
+## Changelog
+![Última versão](https://img.shields.io/badge/version-1.0.1-blue)
+[Changelog](CHANGELOG.md)
