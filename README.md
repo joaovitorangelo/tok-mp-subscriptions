@@ -1,6 +1,6 @@
 # Tok Mercado Pago Subscriptions
 
-**Versão:** 1.0.4
+**Versão:** 1.0.4  
 **Autor:** Tok Digital  
 **Descrição:** Integração com Mercado Pago e Melhor Envio para criação de planos de assinatura personalizados no WordPress.
 
@@ -68,9 +68,9 @@ Acesse Configurações > Mercado Pago Subscriptions no painel do WordPress.
 
 Preencha os campos:
 
-MP_PUBLIC_KEY
-MP_ACCESS_TOKEN
-ME_ACCESS_TOKEN
+MP_PUBLIC_KEY  
+MP_ACCESS_TOKEN  
+ME_ACCESS_TOKEN  
 
 Clique em Salvar Configurações.
 

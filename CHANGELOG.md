@@ -1,6 +1,11 @@
 # Changelog
 
 ## [1.0.4] - 2025-09-03
+- Ajustes para que as classes de serviço (MelhorEnvioPayloadBuilder, PayloadBuilderFactory) sejam utilizadas corretamente na estrutura do plugin.
+- Organização de payloads para integração com Melhor Envio e tratamento de dados enviados pelo frontend.
+- Implementação de captura de dados do formulário Elementor e envio via AJAX (#form-field-cep, #form-field-post_id).
+- Criação de funções de manipulação de formulários Elementor para registrar assinaturas e dados dos usuários.
+- Criação de endpoints AJAX para cálculo de frete no Melhor Envio (handle_calculate_shipping) para usuários logados e não logados.
 - Organização de arquivos separada por responsabilidades
 
 ## [1.0.3] - 2025-09-02

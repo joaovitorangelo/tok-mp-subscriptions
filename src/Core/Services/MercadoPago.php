@@ -2,6 +2,10 @@
 
 namespace Tok\MPSubscriptions\Core\Services;
 
+use Tok\MPSubscriptions\Infrastructure\HttpClient;
+
+use Tok\MPSubscriptions\Plugin;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -24,6 +28,11 @@ class MercadoPago {
 
     public function init() {
         $this->access_token = Plugin::get_option('MP_ACCESS_TOKEN');
+        if (!$this->access_token) {
+            error_log('MercadoPago: token não definido');
+            return;
+        }
+
         $this->client = new HttpClient($this->access_token);
         // add_action('init', [$this, 'process_subscription']);
     }

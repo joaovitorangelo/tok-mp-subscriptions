@@ -48,6 +48,11 @@ class Plan extends CustomPostType
             value="<?php echo esc_attr(get_post_meta($post->ID,'_plan_price',true)); ?>"
             style="width:100%;">
 
+            <p><label for="plan_quantity">Quantidade:</label></p>
+        <input type="text" name="plan_quantity" id="plan_quantity"
+            value="<?php echo esc_attr(get_post_meta($post->ID,'_plan_quantity',true)); ?>"
+            style="width:100%;">
+
         <p><label for="plan_width">Largura:</label></p>
         <input type="text" name="plan_width" id="plan_width"
             value="<?php echo esc_attr(get_post_meta($post->ID,'_plan_width',true)); ?>"
@@ -88,7 +93,7 @@ class Plan extends CustomPostType
         }
 
         // Campos que você quer salvar
-        $fields = ['plan_title', 'plan_price', 'plan_width', 'plan_height', 'plan_length', 'plan_weight'];
+        $fields = ['plan_title', 'plan_price', 'plan_quantity', 'plan_width', 'plan_height', 'plan_length', 'plan_weight'];
 
         foreach ($fields as $field) {
             if (isset($_POST[$field])) {

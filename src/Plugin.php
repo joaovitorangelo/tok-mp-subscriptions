@@ -14,6 +14,10 @@ use Tok\MPSubscriptions\Core\PostTypes\Taxonomy;
 
 use Tok\MPSubscriptions\Core\Security\Crypto;
 
+use Tok\MPSubscriptions\Frontend\Forms;
+
+use Tok\MPSubscriptions\Frontend\Ajax;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -54,6 +58,40 @@ class Plugin {
 
         $this->mp->init();
         $this->me->init();
+
+        add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
+        
+        if ( defined('ELEMENTOR_PRO_VERSION') ) {
+            Forms::init();
+        }
+
+        Ajax::init();
+    }
+
+    /**
+     * Importa JS e CSS do frontend
+     */
+    public function enqueue_scripts() {
+
+        wp_enqueue_script(
+            'tok-mp-subscriptions-main',
+            TOK_PLUGIN_URL . 'src/Frontend/assets/js/main.js',
+            ['jquery'], // dependências
+            '1.0.0',
+            true // carregamento no footer
+        );
+
+        wp_localize_script('tok-mp-subscriptions-main', 'tok_mp_subscriptions_ajax_obj', [
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'nonce'    => wp_create_nonce('tok_nonce'),
+        ]);
+
+        // wp_enqueue_style(
+        //     'tok-mp-subscriptions-style',
+        //     TOK_PLUGIN_URL . 'src/Frontend/assets/css/main.css',
+        //     [],
+        //     '1.0.0'
+        // );
     }
 
     /**

@@ -2,6 +2,10 @@
 
 namespace Tok\MPSubscriptions\Core\Services;
 
+use Tok\MPSubscriptions\Infrastructure\HttpClient;
+
+use Tok\MPSubscriptions\Plugin;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -20,46 +24,19 @@ class MelhorEnvio {
     private $base_url;
 
     public function init() {
-        $this->access_token = Plugin::get_option('ME_ACCESS_TOKEN');
         $this->base_url = 'https://sandbox.melhorenvio.com.br/api/v2'; // altere para produção se precisar
-        $this->client = new HttpClient($this->access_token);
-
-        // Exemplo de hook futuro
-        add_action('init', [$this, 'maybe_create_label']);
-    }
-
-    /**
-     * maybe_create_label
-     * 
-     * Exemplo: cria etiqueta se for disparado via POST
-     */
-    public function maybe_create_label() {
-        if (isset($_POST['tok_create_label'])) {
-            $shipment = $this->create_shipment([
-                // corpo mínimo para teste
-                "service" => "1", // ID do serviço de entrega
-                "from" => [
-                    "postal_code" => "01001000"
-                ],
-                "to" => [
-                    "postal_code" => "20040030"
-                ],
-                "products" => [
-                    [
-                        "name" => "Produto Teste",
-                        "quantity" => 1,
-                        "unitary_value" => 100.00
-                    ]
-                ]
-            ]);
-
-            // pode logar ou salvar no banco
-            // error_log(print_r($shipment, true));
+        
+        $this->access_token = Plugin::get_option('ME_ACCESS_TOKEN');
+        if (!$this->access_token) {
+            error_log('MercadoEnvio: token não definido');
+            return;
         }
+        
+        $this->client = new HttpClient($this->access_token);
     }
 
     /**
-     * calculate_shipping
+     * request_shipping_quote
      * 
      * Faz uma cotação de frete
      * 
@@ -87,7 +64,7 @@ class MelhorEnvio {
      *     ]
      * ];
      */
-    public function calculate_shipping($data) {
+    public function request_shipping_quote($data) {
         $url = $this->base_url . '/me/shipment/calculate';
         return $this->client->post($url, $data);
     }
@@ -111,4 +88,26 @@ class MelhorEnvio {
         $url = $this->base_url . '/me/shipment/services';
         return $this->client->get($url);
     }
+
+    /**
+     * Calcula a média de preços das cotações válidas
+     *
+     * @param array $shippingData Array retornado do request_shipping_quote()['data']
+     * @return float Média dos preços
+     */
+    public function calculate_average_price(array $shippingData): float {
+        $total = 0;
+        $count = 0;
+
+        foreach ($shippingData as $service) {
+            if (!empty($service['price'])) {
+                $price = (float) str_replace(',', '.', $service['price']);
+                $total += $price;
+                $count++;
+            }
+        }
+
+        return $count > 0 ? round($total / $count, 2) : 0;
+    }
+
 }
