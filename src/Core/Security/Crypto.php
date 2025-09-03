@@ -1,9 +1,14 @@
 <?php
 
-namespace Tok\MPSubscriptions\Security;
+namespace Tok\MPSubscriptions\Core\Security;
 
 defined('ABSPATH') || exit;
 
+/**
+ * Crypto
+ * 
+ * Criptografia e Descriptografia de credenciais
+ */
 class Crypto {
     private static $cipher = 'AES-256-CBC';
 

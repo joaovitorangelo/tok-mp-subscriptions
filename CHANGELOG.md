@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.0.4] - 2025-09-03
+- Organização de arquivos separada por responsabilidades
+
 ## [1.0.3] - 2025-09-02
 - Criptografar credenciais de acesso
 - Registrar taxonomias e metaboxes dinamicamente

@@ -1,9 +1,14 @@
 <?php
 
-namespace Tok\MPSubscriptions\PostTypes;
+namespace Tok\MPSubscriptions\Core\PostTypes;
 
 defined('ABSPATH') || exit;
 
+/**
+ * Subscription
+ * 
+ * CPT Assinatura.
+ */
 class Subscription extends CustomPostType
 {
     public function __construct()

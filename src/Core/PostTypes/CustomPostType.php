@@ -1,6 +1,6 @@
 <?php
 
-namespace Tok\MPSubscriptions\PostTypes;
+namespace Tok\MPSubscriptions\Core\PostTypes;
 
 defined('ABSPATH') || exit;
 
@@ -20,27 +20,27 @@ class CustomPostType {
 
         // Labels padrão
         $default_labels = [
-            'name' => ucfirst($post_type),
-            'singular_name' => ucfirst($post_type),
-            'menu_name' => ucfirst($post_type),
-            'add_new_item' => 'Add New ' . ucfirst($post_type),
-            'edit_item' => 'Edit ' . ucfirst($post_type),
-            'new_item' => 'New ' . ucfirst($post_type),
-            'view_item' => 'View ' . ucfirst($post_type),
-            'search_items' => 'Search ' . ucfirst($post_type),
-            'not_found' => 'No ' . strtolower($post_type) . ' found',
-            'not_found_in_trash' => 'No ' . strtolower($post_type) . ' found in Trash',
+            'name'                  =>  ucfirst($post_type),
+            'singular_name'         =>  ucfirst($post_type),
+            'menu_name'             =>  ucfirst($post_type),
+            'add_new_item'          =>  'Add New ' . ucfirst($post_type),
+            'edit_item'             =>  'Edit ' . ucfirst($post_type),
+            'new_item'              =>  'New ' . ucfirst($post_type),
+            'view_item'             =>  'View ' . ucfirst($post_type),
+            'search_items'          =>  'Search ' . ucfirst($post_type),
+            'not_found'             =>  'No ' . strtolower($post_type) . ' found',
+            'not_found_in_trash'    =>  'No ' . strtolower($post_type) . ' found in Trash',
         ];
 
         $this->labels = array_merge($default_labels, $labels);
 
         // Args padrão
         $default_args = [
-            'labels' => $this->labels,
-            'public' => true,
-            'has_archive' => true,
-            'supports' => ['title', 'editor', 'custom-fields'],
-            'show_in_rest' => true,
+            'labels'        =>  $this->labels,
+            'public'        =>  true,
+            'has_archive'   =>  true,
+            'supports'      =>  ['title', 'editor', 'custom-fields'],
+            'show_in_rest'  =>  true,
         ];
 
         $this->args = array_merge($default_args, $args);

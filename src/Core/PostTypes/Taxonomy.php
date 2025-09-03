@@ -1,6 +1,6 @@
 <?php
 
-namespace Tok\MPSubscriptions\PostTypes;
+namespace Tok\MPSubscriptions\Core\PostTypes;
 
 defined('ABSPATH') || exit;
 

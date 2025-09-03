@@ -1,6 +1,6 @@
 <?php 
 
-namespace Tok\MPSubscriptions;
+namespace Tok\MPSubscriptions\Core\Services;
 
 defined('ABSPATH') || exit;
 

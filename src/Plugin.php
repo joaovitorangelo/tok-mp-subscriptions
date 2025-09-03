@@ -4,15 +4,15 @@ namespace Tok\MPSubscriptions;
 
 use Tok\MPSubscriptions\Admin;
 
-use Tok\MPSubscriptions\MercadoPago;
+use Tok\MPSubscriptions\Core\Services\MercadoPago;
 
-use Tok\MPSubscriptions\MelhorEnvio;
+use Tok\MPSubscriptions\Core\Services\MelhorEnvio;
 
-use Tok\MPSubscriptions\PostTypes\CustomPostType;
+use Tok\MPSubscriptions\Core\PostTypes\CustomPostType;
 
-use Tok\MPSubscriptions\PostTypes\Taxonomy;
+use Tok\MPSubscriptions\Core\PostTypes\Taxonomy;
 
-use Tok\MPSubscriptions\Security\Crypto;
+use Tok\MPSubscriptions\Core\Security\Crypto;
 
 defined('ABSPATH') || exit;
 
@@ -61,8 +61,8 @@ class Plugin {
      */
     private function register_post_types()
     {
-        $this->cpts['plans'] = new \Tok\MPSubscriptions\PostTypes\Plan();
-        $this->cpts['subscriptions'] = new \Tok\MPSubscriptions\PostTypes\Subscription();
+        $this->cpts['plans'] = new \Tok\MPSubscriptions\Core\PostTypes\Plan();
+        $this->cpts['subscriptions'] = new \Tok\MPSubscriptions\Core\PostTypes\Subscription();
     }
 
     /**
