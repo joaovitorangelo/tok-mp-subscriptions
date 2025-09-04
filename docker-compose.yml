@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    environment:
+      - AWS_ACCESS_KEY_ID=AKIA4LF2YEB5V5AGKA6X
+      - AWS_SECRET_ACCESS_KEY=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
+      - AWS_DEFAULT_REGION=us-east-2
+      - MP_PUBLIC_KEY=TEST-9467e71c-1750-40b8-83a9-28bf2992e2e7
+      - MP_ACCESS_TOKEN=TEST-4483457805093712-082916-ff67e799d0071665b5862f7c82397e33-1923849358
+    restart: always

@@ -1,0 +1,20 @@
+{
+    "name": "tok/mp-subscriptions",
+    "description": "Integração com Mercado Pago e Melhor Envio para assinaturas personalizadas",
+    "type": "wordpress-plugin",
+    "autoload": {
+        "psr-4": {
+            "Tok\\MPSubscriptions\\": "src/"
+        }
+    },
+    "require": {
+        "sentry/sentry": "^4.15",
+        "aws/aws-sdk-php": "^3.356"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "10"
+    },
+    "scripts": {
+        "test": "phpunit"
+    }
+}

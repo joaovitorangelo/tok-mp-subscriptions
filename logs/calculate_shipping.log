@@ -1,0 +1,285 @@
+Array
+(
+    [0] => Array
+        (
+            [id] => 1
+            [name] => PAC
+            [price] => 24.43
+            [custom_price] => 24.43
+            [discount] => 0.00
+            [currency] => R$
+            [delivery_time] => 7
+            [delivery_range] => Array
+                (
+                    [min] => 6
+                    [max] => 7
+                )
+
+            [custom_delivery_time] => 7
+            [custom_delivery_range] => Array
+                (
+                    [min] => 6
+                    [max] => 7
+                )
+
+            [packages] => Array
+                (
+                    [0] => Array
+                        (
+                            [price] => 24.43
+                            [discount] => 0.00
+                            [format] => box
+                            [dimensions] => Array
+                                (
+                                    [height] => 10
+                                    [width] => 15
+                                    [length] => 20
+                                )
+
+                            [weight] => 0.50
+                            [insurance_value] => 0.00
+                            [products] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [id] => 1
+                                            [quantity] => 1
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [additional_services] => Array
+                (
+                    [receipt] => 
+                    [own_hand] => 
+                    [collect] => 
+                )
+
+            [company] => Array
+                (
+                    [id] => 1
+                    [name] => Correios
+                    [picture] => https://sandbox.melhorenvio.com.br/images/shipping-companies/correios.png
+                )
+
+        )
+
+    [1] => Array
+        (
+            [id] => 2
+            [name] => SEDEX
+            [price] => 45.75
+            [custom_price] => 45.75
+            [discount] => 0.00
+            [currency] => R$
+            [delivery_time] => 3
+            [delivery_range] => Array
+                (
+                    [min] => 2
+                    [max] => 3
+                )
+
+            [custom_delivery_time] => 3
+            [custom_delivery_range] => Array
+                (
+                    [min] => 2
+                    [max] => 3
+                )
+
+            [packages] => Array
+                (
+                    [0] => Array
+                        (
+                            [price] => 45.75
+                            [discount] => 0.00
+                            [format] => box
+                            [dimensions] => Array
+                                (
+                                    [height] => 10
+                                    [width] => 15
+                                    [length] => 20
+                                )
+
+                            [weight] => 0.50
+                            [insurance_value] => 0.00
+                            [products] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [id] => 1
+                                            [quantity] => 1
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [additional_services] => Array
+                (
+                    [receipt] => 
+                    [own_hand] => 
+                    [collect] => 
+                )
+
+            [company] => Array
+                (
+                    [id] => 1
+                    [name] => Correios
+                    [picture] => https://sandbox.melhorenvio.com.br/images/shipping-companies/correios.png
+                )
+
+        )
+
+    [2] => Array
+        (
+            [id] => 3
+            [name] => .Package
+            [price] => 38.54
+            [custom_price] => 38.54
+            [discount] => 0.00
+            [currency] => R$
+            [delivery_time] => 9
+            [delivery_range] => Array
+                (
+                    [min] => 8
+                    [max] => 9
+                )
+
+            [custom_delivery_time] => 9
+            [custom_delivery_range] => Array
+                (
+                    [min] => 8
+                    [max] => 9
+                )
+
+            [packages] => Array
+                (
+                    [0] => Array
+                        (
+                            [format] => box
+                            [dimensions] => Array
+                                (
+                                    [height] => 10
+                                    [width] => 15
+                                    [length] => 20
+                                )
+
+                            [weight] => 0.50
+                            [insurance_value] => 0.00
+                            [products] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [id] => 1
+                                            [quantity] => 1
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [additional_services] => Array
+                (
+                    [receipt] => 
+                    [own_hand] => 
+                    [collect] => 
+                )
+
+            [company] => Array
+                (
+                    [id] => 2
+                    [name] => Jadlog
+                    [picture] => https://sandbox.melhorenvio.com.br/images/shipping-companies/jadlog.png
+                )
+
+        )
+
+    [3] => Array
+        (
+            [id] => 4
+            [name] => .Com
+            [price] => 39.30
+            [custom_price] => 39.30
+            [discount] => 0.00
+            [currency] => R$
+            [delivery_time] => 8
+            [delivery_range] => Array
+                (
+                    [min] => 7
+                    [max] => 8
+                )
+
+            [custom_delivery_time] => 8
+            [custom_delivery_range] => Array
+                (
+                    [min] => 7
+                    [max] => 8
+                )
+
+            [packages] => Array
+                (
+                    [0] => Array
+                        (
+                            [format] => box
+                            [dimensions] => Array
+                                (
+                                    [height] => 10
+                                    [width] => 15
+                                    [length] => 20
+                                )
+
+                            [weight] => 0.50
+                            [insurance_value] => 0.00
+                            [products] => Array
+                                (
+                                    [0] => Array
+                                        (
+                                            [id] => 1
+                                            [quantity] => 1
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [additional_services] => Array
+                (
+                    [receipt] => 
+                    [own_hand] => 
+                    [collect] => 
+                )
+
+            [company] => Array
+                (
+                    [id] => 2
+                    [name] => Jadlog
+                    [picture] => https://sandbox.melhorenvio.com.br/images/shipping-companies/jadlog.png
+                )
+
+        )
+
+    [4] => Array
+        (
+            [id] => 17
+            [name] => Mini Envios
+            [error] => Dimensões do objeto ultrapassam o limite da transportadora.
+            [company] => Array
+                (
+                    [id] => 1
+                    [name] => Correios
+                    [picture] => https://sandbox.melhorenvio.com.br/images/shipping-companies/correios.png
+                )
+
+        )
+
+)
