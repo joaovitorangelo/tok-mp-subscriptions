@@ -103,4 +103,16 @@ class MercadoPago {
         ];
         return $this->client->post($url, $body);
     }
+
+    public function configure_webhook($url) {
+        $endpoint = 'https://api.mercadopago.com/webhooks';
+
+        $body = [
+            'url' => $url,
+            'event_types' => ['preapproval', 'payment']
+        ];
+
+        return $this->client->post($url, $body);
+    }
+
 }

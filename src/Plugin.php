@@ -18,6 +18,8 @@ use Tok\MPSubscriptions\Frontend\Forms;
 
 use Tok\MPSubscriptions\Frontend\Ajax;
 
+use Tok\MPSubscriptions\Frontend\Handlers\WebhookHandler;
+
 defined('ABSPATH') || exit;
 
 /**
@@ -66,6 +68,7 @@ class Plugin {
         }
 
         Ajax::init();
+        WebhookHandler::init(); 
     }
 
     /**
@@ -141,6 +144,19 @@ class Plugin {
         }
 
         self::$secret_key = $key;
+    }
+
+    public function setup_webhook() {
+        $this->mp->init();
+
+        $webhook_url = home_url('/wp-json/tok-mp-subs/v1/webhook');
+
+        try {
+            $this->mp->configure_webhook($webhook_url);
+            error_log("Webhook do Mercado Pago configurado com sucesso: " . $webhook_url);
+        } catch (\Exception $e) {
+            error_log("Erro ao configurar webhook do Mercado Pago: " . $e->getMessage());
+        }
     }
 
 }

@@ -1,6 +1,11 @@
 # Changelog
 
 ## [1.0.8] - 2025-09-05
+Webhook Mercado Pago
+- Implementado Webhook para receber notificações de assinaturas (preapproval).
+- Apenas assinaturas autorizadas são registradas no CPT Subscription.
+- Salva código, valor, status, e-mail do pagador e ID do plano vinculado.
+- Garante que o sistema só armazene assinaturas efetivamente pagas, sem depender do redirecionamento do usuário.
 Notificando usuário via Push Notifications e E-mail após criação do Plano de assinatura.
 Integração Mercado Pago
 - Ajustado o fluxo de criação de assinaturas vinculadas a planos.
