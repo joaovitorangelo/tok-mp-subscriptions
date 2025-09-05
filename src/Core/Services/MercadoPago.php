@@ -56,6 +56,27 @@ class MercadoPago {
         return $this->client->get($url);
     }
 
+    public function search_plan_by_name($name) {
+        // Busca planos existentes (limitando a 50 por exemplo)
+        $url = 'https://api.mercadopago.com/preapproval_plan/search?limit=50';
+        $response = $this->client->get($url);
+
+        if (!isset($response['results'])) {
+            return null; // Nenhum plano encontrado
+        }
+
+        // Percorre os resultados e retorna o primeiro plano ativo com o mesmo 'reason'
+        foreach ($response['results'] as $plan) {
+            if (isset($plan['reason'], $plan['status']) 
+                && $plan['reason'] === $name 
+                && $plan['status'] === 'active') {
+                return $plan; // Retorna o primeiro encontrado
+            }
+        }
+
+        return null; // Nenhum plano ativo encontrado
+    }
+
     /**
      * create_plan
      * 

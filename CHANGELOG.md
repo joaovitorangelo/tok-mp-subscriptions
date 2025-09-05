@@ -1,6 +1,7 @@
 # Changelog
 
 ## [1.0.8] - 2025-09-05
+Notificando usuário via Push Notifications e E-mail após criação do Plano de assinatura.
 Integração Mercado Pago
 - Ajustado o fluxo de criação de assinaturas vinculadas a planos.
 - Agora, ao criar um plano (preapproval_plan), o init_point é retornado para o usuário completar o checkout.

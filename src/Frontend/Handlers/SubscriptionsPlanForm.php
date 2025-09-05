@@ -12,6 +12,8 @@ use Tok\MPSubscriptions\Core\Services\Payloads\PayloadBuilderFactory;
 
 use Tok\MPSubscriptions\Infrastructure\ErrorHandler;
 
+use FcmDispatcher\FcmDispatcher;
+
 class SubscriptionsPlanForm {
 
     public static function process(array $fields) {
@@ -60,17 +62,44 @@ class SubscriptionsPlanForm {
                 'message' => $e->getMessage()
             ];
         }
-
+        
         // Cria o serviço de plano
         $planService = new MercadoPago();
         $planService->init();
 
-        // Cria o plano
-        $plan = $planService->create_plan($payload);
+        // Verifica se o plano já existe antes de criar
+        $plan_name = get_the_title( $fields['post_id']['value'] ) . ' - ' . $fields['cep']['value'];
+        $existingPlans = $planService->search_plan_by_name($plan_name);
+
+        if (!empty($existingPlans)) {
+            $plan = $existingPlans;
+        } else {
+            $plan = $planService->create_plan($payload);
+        }
+
+        // Dispara email com wp_mail ou sendpulse?
+        $to = $fields['email']['value'];
+        $subject = 'Plano de assinatura ' . get_the_title( $fields['post_id']['value'] );
+        $message = 'Olá! Clique no link para continuar e concluir a compra do seu plano: ' . $plan['init_point'];
+        $headers = array('Content-Type: text/html; charset=UTF-8');
+        wp_mail($to, $subject, $message, $headers);
+        
+        // Dispara notificação push
+        if (class_exists('FcmDispatcher\FcmDispatcher')) {
+            $config = array(
+                'notification_type'                 =>  'individual',
+                'user_email'                        =>  $fields['email']['value'],
+                'title'                             =>  'Plano de assinatura ' . get_the_title( $fields['post_id']['value'] ),
+                'body'                              =>  'Clique aqui para continuar e concluir a compra do seu plano de assinatura.',
+                'image'                             =>  'https://cervejaimbe.com.br/tok-2023/wp-content/uploads/2024/02/marca-cervejaria-imbe-300x300.png',
+                'link'                              =>  $plan['init_point']
+            );
+            $response = (new FcmDispatcher())->sendToUserByEmail($config);
+        }
 
         return [
             'success'       => true,
-            'message'       => 'Plano e assinatura criados com sucesso!',
+            'message'       => 'Dados recebidos com sucesso!',
             'data'          => $plan,
         ];
 
