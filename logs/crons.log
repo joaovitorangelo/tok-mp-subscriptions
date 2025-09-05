@@ -1,0 +1,5 @@
+Verificar status de plano de assinatura 1 vez por dia
+wget -q -O - "https://cervejaimbe.com.br/wp-json/tok-mp-subs/v1/cron-check-subscriptions?token=T0kNov@Er4" >/dev/null 2>&1
+
+Resolver erro na criação de planos de assinatura 
+wget -q -O - "https://cervejaimbe.com.br/wp-json/tok-mp-subs/v1/cron-process-sqs?token=T0kNov@Er4" >/dev/null 2>&1

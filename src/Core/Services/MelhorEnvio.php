@@ -4,6 +4,8 @@ namespace Tok\MPSubscriptions\Core\Services;
 
 use Tok\MPSubscriptions\Infrastructure\HttpClient;
 
+use Tok\MPSubscriptions\Infrastructure\ErrorHandler;
+
 use Tok\MPSubscriptions\Plugin;
 
 defined('ABSPATH') || exit;
@@ -26,9 +28,9 @@ class MelhorEnvio {
     public function init() {
         $this->base_url = 'https://sandbox.melhorenvio.com.br/api/v2'; // altere para produção se precisar
         
-        $this->access_token = Plugin::get_option('ME_ACCESS_TOKEN');
+        $this->access_token = Plugin::get_option('ME_ACCESS_TOKEN', '', true);
         if (!$this->access_token) {
-            error_log('MercadoEnvio: token não definido');
+            ErrorHandler::reportMessage("MelhorEnvio: token não definido");
             return;
         }
         

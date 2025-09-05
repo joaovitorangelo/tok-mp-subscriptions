@@ -21,8 +21,8 @@ class MercadoPagoPlanPayloadBuilder implements PayloadBuilderInterface {
             'auto_recurring'            =>  [
                 'frequency'             =>  1,
                 'frequency_type'        =>  'months',
-                'transaction_amount'    =>  round( $transaction_amount ),
-                // 'transaction_amount'    =>  1.00, // Teste
+                // 'transaction_amount'    =>  round( $transaction_amount ),
+                'transaction_amount'    =>  1.00, // Teste
                 'currency_id'           =>  'BRL',
                 'start_date'            =>  date('c'),
                 'end_date'              =>  null,

@@ -110,9 +110,9 @@ class Plugin {
      * Função utilitária para pegar opções do plugin
      * Já descriptografa valores sensíveis
      */
-    public static function get_option($key, $default = '') {
-        // Apenas admins podem ler tokens
-        if (!current_user_can('manage_options')) {
+    public static function get_option($key, $default = '', $allow_frontend = false) {
+        // Apenas admins ou quando explicitamente permitido
+        if (!current_user_can('manage_options') && !$allow_frontend) {
             return $default;
         }
 

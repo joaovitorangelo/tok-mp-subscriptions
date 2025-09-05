@@ -4,6 +4,8 @@ namespace Tok\MPSubscriptions\Core\Services;
 
 use Tok\MPSubscriptions\Infrastructure\HttpClient;
 
+use Tok\MPSubscriptions\Infrastructure\ErrorHandler;
+
 use Tok\MPSubscriptions\Plugin;
 
 defined('ABSPATH') || exit;
@@ -27,9 +29,9 @@ class MercadoPago {
     private $client;
 
     public function init() {
-        $this->access_token = Plugin::get_option('MP_ACCESS_TOKEN');
+        $this->access_token = Plugin::get_option('MP_ACCESS_TOKEN', '', true);
         if (!$this->access_token) {
-            error_log('MercadoPago: token não definido');
+            ErrorHandler::reportMessage("MercadoPago: token não definido");
             return;
         }
 
@@ -54,6 +56,13 @@ class MercadoPago {
     private function get_subscription_by_email($email) {
         $url = 'https://api.mercadopago.com/preapproval/search?payer_email=' . urlencode($email);
         return $this->client->get($url);
+    }
+
+    public function list_subscriptions(int $limit = 50, int $offset = 0): array {
+        $url = "https://api.mercadopago.com/preapproval/search?limit={$limit}&offset={$offset}";
+        $response = $this->client->get($url);
+
+        return $response['results'] ?? [];
     }
 
     public function search_plan_by_name($name) {

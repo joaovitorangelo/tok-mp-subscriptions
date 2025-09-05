@@ -2,25 +2,55 @@
 
 namespace Tok\MPSubscriptions\Frontend\Handlers;
 
+use Tok\MPSubscriptions\Core\Services\MercadoPago;
+
 use Tok\MPSubscriptions\Core\PostTypes\Subscription;
 
-use Tok\MPSubscriptions\Core\Services\MercadoPago;
+use Tok\MPSubscriptions\Core\Services\SubscriptionManager;
+
+use Tok\MPSubscriptions\Infrastructure\ErrorHandler;
 
 defined('ABSPATH') || exit;
 
 class WebhookHandler {
 
+    /**
+     * Inicializa os endpoints REST
+     */
     public static function init() {
         add_action('rest_api_init', function () {
-            register_rest_route('tok-mp/v1', '/webhook', [
+            register_rest_route('tok-mp-subs/v1', '/cron-mp-webhook', [
                 'methods'  => 'POST',
-                'callback' => [self::class, 'handle_webhook'],
-                'permission_callback' => '__return_true'
+                'callback' => [self::class, 'handle_cron_mp_webhook'],
+                'permission_callback' => function($request) {
+                    return $request->get_param('token') === 'T0kNov@Er4';
+                }
+            ]);
+
+            // Endpoint para cron
+            register_rest_route('tok-mp-subs/v1', '/cron-check-subscriptions', [
+                'methods'  => 'GET',
+                'callback' => [self::class, 'handle_cron_check_subscriptions'],
+                'permission_callback' => function($request) {
+                    return $request->get_param('token') === 'T0kNov@Er4';
+                }
+            ]);
+
+            // AWS Sqs Process Webhook
+            register_rest_route('tok-mp-subs/v1', '/cron-process-sqs', [
+                'methods'  => 'GET',
+                'callback' => [self::class, 'handle_cron_process_sqs'],
+                'permission_callback' => function($request) {
+                    return $request->get_param('token') === 'T0kNov@Er4';
+                }
             ]);
         });
     }
 
-    public static function handle_webhook(\WP_REST_Request $request) {
+    /**
+     * Recebe webhook do Mercado Pago
+     */
+    public static function handle_cron_mp_webhook(\WP_REST_Request $request) {
         $data = $request->get_json_params();
 
         if (isset($data['type']) && $data['type'] === 'preapproval') {
@@ -33,8 +63,8 @@ class WebhookHandler {
                 $subscription = $mp->get_subscription($id);
 
                 if ($subscription && $subscription['status'] === 'authorized') {
-                    // Assinatura confirmada → salva no CPT
-                    self::store_subscription($subscription);
+                    $manager = new SubscriptionManager($mp);
+                    $manager->store_subscription($subscription);
                 }
             }
         }
@@ -42,21 +72,63 @@ class WebhookHandler {
         return ['status' => 'ok'];
     }
 
-    private static function store_subscription($subscription) {
-        // Cria o post "subscription"
-        $post_id = wp_insert_post([
-            'post_type'   => 'subscriptions',
-            'post_status' => 'publish',
-            'post_title'  => 'Assinatura - ' . $subscription['payer_email'],
-        ]);
+    /**
+     * Cron para atualizar status de assinaturas
+     */
+    public static function handle_cron_check_subscriptions(\WP_REST_Request $request): array {
+        $mp = new MercadoPago();
+        $mp->init();
 
-        if (!$post_id) return;
+        $manager = new SubscriptionManager($mp);
 
-        // Salva metadados correspondentes ao seu CPT
-        update_post_meta($post_id, '_subscription_code', $subscription['id']);
-        update_post_meta($post_id, '_subscription_value', $subscription['transaction_amount'] ?? 0);
-        update_post_meta($post_id, '_mp_status', $subscription['status']);
-        update_post_meta($post_id, '_mp_payer_email', $subscription['payer_email']);
-        update_post_meta($post_id, '_mp_plan_id', $subscription['preapproval_plan_id']);
+        $total_updated = $manager->update_all_statuses();
+
+        return ['status' => 'ok', 'updated' => $total_updated];
     }
+
+    public function handle_cron_process_sqs()
+    {
+        if (!$this->sqsClient || !$this->queueUrl) {
+            return;
+        }
+
+        try {
+            $result = $this->sqsClient->receiveMessage([
+                'QueueUrl' => $this->queueUrl,
+                'MaxNumberOfMessages' => 10,
+                'WaitTimeSeconds' => 5,
+            ]);
+
+            if (empty($result->get('Messages'))) {
+                return;
+            }
+
+            foreach ($result->get('Messages') as $message) {
+                $job = json_decode($message['Body'], true);
+
+                // Reexecuta a requisição HTTP
+                if ($job) {
+                    $method = $job['method'];
+                    $url    = $job['url'];
+                    $body   = $job['payload'] ?? [];
+
+                    if ($method === 'POST') {
+                        $this->post($url, $body);
+                    } else {
+                        $this->get($url, $body);
+                    }
+                }
+
+                // Remove da fila depois de processar
+                $this->sqsClient->deleteMessage([
+                    'QueueUrl' => $this->queueUrl,
+                    'ReceiptHandle' => $message['ReceiptHandle'],
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            ErrorHandler::reportMessage("Erro ao processar jobs SQS: " . $e->getMessage());
+        }
+    }
+
 }

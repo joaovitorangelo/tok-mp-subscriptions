@@ -19,15 +19,15 @@ define( 'TOK_MPSUBS_PLUGIN_FILE', __FILE__ );
 define( 'TOK_MPSUBS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 // --- Carrega o autoload do Composer ---
-// require_once __DIR__ . '/' . 'vendor/autoload.php';
+require_once __DIR__ . '/' . 'vendor/autoload.php';
 
-// Inicializa o Sentry
-// \Sentry\init([
-//     'dsn' => 'https://44f3face5d262df00d0d1cf939d8d070@o4509958551830528.ingest.us.sentry.io/4509958553862144',
-//     'environment' => defined('WP_ENV') ? WP_ENV : 'production',
-//     'release' => 'tok-mp-subscriptions@1.0.0',
-//     'error_types' => E_ALL & ~E_NOTICE, // captura todos erros exceto notices
-// ]);
+// --- Inicializa o Sentry ---
+\Sentry\init([
+    'dsn' => 'https://44f3face5d262df00d0d1cf939d8d070@o4509958551830528.ingest.us.sentry.io/4509958553862144',
+    'environment' => defined('WP_ENV') ? WP_ENV : 'production',
+    'release' => 'tok-mp-subscriptions@1.0.0',
+    'error_types' => E_ALL & ~E_NOTICE, // captura todos erros exceto notices
+]);
 
 // --- Teste de captura de erro no Sentry ---
 // add_action('init', function () {
@@ -39,10 +39,10 @@ define( 'TOK_MPSUBS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 // });
 
 // --- Inicializa o plugin ---
-// add_action('plugins_loaded', function(){
-//     $plugin = new \Tok\MPSubscriptions\Plugin();
-//     $plugin->run();
-// });
+add_action('plugins_loaded', function(){
+    $plugin = new \Tok\MPSubscriptions\Plugin();
+    $plugin->run();
+});
 
 
 

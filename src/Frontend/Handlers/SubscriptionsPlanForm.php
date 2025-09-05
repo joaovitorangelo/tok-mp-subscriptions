@@ -14,6 +14,8 @@ use Tok\MPSubscriptions\Infrastructure\ErrorHandler;
 
 use FcmDispatcher\FcmDispatcher;
 
+use Tok\MPSubscriptions\Frontend\EmailHelper;
+
 class SubscriptionsPlanForm {
 
     public static function process(array $fields) {
@@ -83,6 +85,21 @@ class SubscriptionsPlanForm {
         $message = 'Olá! Clique no link para continuar e concluir a compra do seu plano: ' . $plan['init_point'];
         $headers = array('Content-Type: text/html; charset=UTF-8');
         wp_mail($to, $subject, $message, $headers);
+
+        // Monta os dados do template
+        // $email_html = EmailHelper::get_template('subscription_confirmation', [
+        //     'user_name' => $fields['name']['value'] ?? 'Cliente',
+        //     'plan_link' => $plan['init_point'],
+        //     'subject'   => 'Plano de assinatura ' . get_the_title($fields['post_id']['value']),
+        // ]);
+
+        // // Envia o email
+        // wp_mail(
+        //     $fields['email']['value'],
+        //     'Plano de assinatura ' . get_the_title($fields['post_id']['value']),
+        //     $email_html,
+        //     ['Content-Type: text/html; charset=UTF-8']
+        // );
         
         // Dispara notificação push
         if (class_exists('FcmDispatcher\FcmDispatcher')) {
@@ -103,6 +120,20 @@ class SubscriptionsPlanForm {
             'data'          => $plan,
         ];
 
+    }
+    
+    public static function get_email_template(string $template_name, array $vars = []): string {
+        $template_file = __DIR__ . "/Emails/{$template_name}.php";
+
+        if (!file_exists($template_file)) {
+            return '';
+        }
+
+        extract($vars);
+
+        ob_start();
+        include $template_file;
+        return ob_get_clean();
     }
 
 }

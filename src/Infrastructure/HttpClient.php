@@ -146,48 +146,4 @@ class HttpClient
         }
     }
 
-    public function processSqsJobs()
-    {
-        if (!$this->sqsClient || !$this->queueUrl) {
-            return;
-        }
-
-        try {
-            $result = $this->sqsClient->receiveMessage([
-                'QueueUrl' => $this->queueUrl,
-                'MaxNumberOfMessages' => 10,
-                'WaitTimeSeconds' => 5,
-            ]);
-
-            if (empty($result->get('Messages'))) {
-                return;
-            }
-
-            foreach ($result->get('Messages') as $message) {
-                $job = json_decode($message['Body'], true);
-
-                // Reexecuta a requisição HTTP
-                if ($job) {
-                    $method = $job['method'];
-                    $url    = $job['url'];
-                    $body   = $job['payload'] ?? [];
-
-                    if ($method === 'POST') {
-                        $this->post($url, $body);
-                    } else {
-                        $this->get($url, $body);
-                    }
-                }
-
-                // Remove da fila depois de processar
-                $this->sqsClient->deleteMessage([
-                    'QueueUrl' => $this->queueUrl,
-                    'ReceiptHandle' => $message['ReceiptHandle'],
-                ]);
-            }
-
-        } catch (\Exception $e) {
-            ErrorHandler::reportMessage("Erro ao processar jobs SQS: " . $e->getMessage());
-        }
-    }
 }
