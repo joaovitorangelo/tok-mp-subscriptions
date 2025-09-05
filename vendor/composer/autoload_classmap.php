@@ -30,6 +30,7 @@ return array(
     'AWS\\CRT\\OptionValue' => $vendorDir . '/aws/aws-crt-php/src/AWS/CRT/Options.php',
     'AWS\\CRT\\Options' => $vendorDir . '/aws/aws-crt-php/src/AWS/CRT/Options.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+<<<<<<< HEAD
     'PHPUnit\\Event\\Application\\Finished' => $vendorDir . '/phpunit/phpunit/src/Event/Events/Application/Finished.php',
     'PHPUnit\\Event\\Application\\FinishedSubscriber' => $vendorDir . '/phpunit/phpunit/src/Event/Events/Application/FinishedSubscriber.php',
     'PHPUnit\\Event\\Application\\Started' => $vendorDir . '/phpunit/phpunit/src/Event/Events/Application/Started.php',
@@ -1119,4 +1120,6 @@ return array(
     'TheSeer\\Tokenizer\\TokenCollectionException' => $vendorDir . '/theseer/tokenizer/src/TokenCollectionException.php',
     'TheSeer\\Tokenizer\\Tokenizer' => $vendorDir . '/theseer/tokenizer/src/Tokenizer.php',
     'TheSeer\\Tokenizer\\XMLSerializer' => $vendorDir . '/theseer/tokenizer/src/XMLSerializer.php',
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
 );

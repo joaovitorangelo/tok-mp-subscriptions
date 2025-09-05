@@ -13,12 +13,18 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-factory/src', $vendorDir . '/psr/http-message/src'),
     'Psr\\Http\\Client\\' => array($vendorDir . '/psr/http-client/src'),
+<<<<<<< HEAD
     'PhpParser\\' => array($vendorDir . '/nikic/php-parser/lib/PhpParser'),
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
     'JmesPath\\' => array($vendorDir . '/mtdowling/jmespath.php/src'),
     'Jean85\\' => array($vendorDir . '/jean85/pretty-package-versions/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
+<<<<<<< HEAD
     'DeepCopy\\' => array($vendorDir . '/myclabs/deep-copy/src/DeepCopy'),
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
     'Aws\\' => array($vendorDir . '/aws/aws-sdk-php/src'),
 );

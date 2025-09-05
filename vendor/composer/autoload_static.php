@@ -12,9 +12,13 @@ class ComposerStaticInit7a9dbe0ec48b432d0925298975126496
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'b067bc7112e384b61c701452d53a14a8' => __DIR__ . '/..' . '/mtdowling/jmespath.php/src/JmesPath.php',
+<<<<<<< HEAD
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         '8a9dc1de0ca7e01f3e08231539562f61' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/functions.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+=======
+        '8a9dc1de0ca7e01f3e08231539562f61' => __DIR__ . '/..' . '/aws/aws-sdk-php/src/functions.php',
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
         'fb4ca2d97fe7ba6af750497425204e70' => __DIR__ . '/..' . '/sentry/sentry/src/functions.php',
     );
 
@@ -34,7 +38,10 @@ class ComposerStaticInit7a9dbe0ec48b432d0925298975126496
             'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
+<<<<<<< HEAD
             'PhpParser\\' => 10,
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
         ),
         'J' => 
         array (
@@ -47,10 +54,13 @@ class ComposerStaticInit7a9dbe0ec48b432d0925298975126496
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
         ),
+<<<<<<< HEAD
         'D' => 
         array (
             'DeepCopy\\' => 9,
         ),
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
         'A' => 
         array (
             'Aws\\' => 4,
@@ -87,10 +97,13 @@ class ComposerStaticInit7a9dbe0ec48b432d0925298975126496
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
+<<<<<<< HEAD
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
         ),
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
         'JmesPath\\' => 
         array (
             0 => __DIR__ . '/..' . '/mtdowling/jmespath.php/src',
@@ -111,10 +124,13 @@ class ComposerStaticInit7a9dbe0ec48b432d0925298975126496
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
+<<<<<<< HEAD
         'DeepCopy\\' => 
         array (
             0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
         'Aws\\' => 
         array (
             0 => __DIR__ . '/..' . '/aws/aws-sdk-php/src',
@@ -146,6 +162,7 @@ class ComposerStaticInit7a9dbe0ec48b432d0925298975126496
         'AWS\\CRT\\OptionValue' => __DIR__ . '/..' . '/aws/aws-crt-php/src/AWS/CRT/Options.php',
         'AWS\\CRT\\Options' => __DIR__ . '/..' . '/aws/aws-crt-php/src/AWS/CRT/Options.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+<<<<<<< HEAD
         'PHPUnit\\Event\\Application\\Finished' => __DIR__ . '/..' . '/phpunit/phpunit/src/Event/Events/Application/Finished.php',
         'PHPUnit\\Event\\Application\\FinishedSubscriber' => __DIR__ . '/..' . '/phpunit/phpunit/src/Event/Events/Application/FinishedSubscriber.php',
         'PHPUnit\\Event\\Application\\Started' => __DIR__ . '/..' . '/phpunit/phpunit/src/Event/Events/Application/Started.php',
@@ -1235,6 +1252,8 @@ class ComposerStaticInit7a9dbe0ec48b432d0925298975126496
         'TheSeer\\Tokenizer\\TokenCollectionException' => __DIR__ . '/..' . '/theseer/tokenizer/src/TokenCollectionException.php',
         'TheSeer\\Tokenizer\\Tokenizer' => __DIR__ . '/..' . '/theseer/tokenizer/src/Tokenizer.php',
         'TheSeer\\Tokenizer\\XMLSerializer' => __DIR__ . '/..' . '/theseer/tokenizer/src/XMLSerializer.php',
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
     );
 
     public static function getInitializer(ClassLoader $loader)

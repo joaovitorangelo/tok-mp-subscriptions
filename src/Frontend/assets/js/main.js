@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const priceDefault = jQuery('#plan_price').html();
+    jQuery('#plan_price').after('<div id="calculate_shipping"></div>');
     const cepField = document.querySelector('#form-field-cep');
     let lastCep = '';
 
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Se estiver vazio ou não tiver exatamente 8 números, não faz nada
         if (cepNumbersOnly.length !== 8) {
-            jQuery('#plan_price').html(priceDefault);
+            jQuery('#calculate_shipping').html('');
             requestAnimationFrame(checkCep);
             return;
         }
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Validação final do CEP
         if (!/^\d{8}$/.test(cepNumbersOnly)) {
             alert('CEP inválido! Por favor, insira um CEP no formato 00000-000.');
-            jQuery('#plan_price').html(priceDefault);
+            jQuery('#calculate_shipping').html('');
             requestAnimationFrame(checkCep);
             return;
         }
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const postId = jQuery('#form-field-post_id').val();
         const fields = {
             post_id: { value: postId },
-            cep: { value: cep }
+            cep:     { value: cep }
         };
 
         jQuery.ajax({
@@ -43,12 +43,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 fields: fields
             },
             success: function(response) {
-                console.log(response);
-                if (response.average !== 0) {
-                    const formattedAverage = response.average.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-                    jQuery('#plan_price').html('<strong>' + formattedAverage + '</strong>');
+                if (response.data === null) {
+                    jQuery('#calculate_shipping').html('');
+                } else if (response.data === 'Imbituba') {
+                    jQuery('#calculate_shipping').html('Frete grátis');
                 } else {
-                    jQuery('#plan_price').html(priceDefault);
+                    const formattedAverage = response.average.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+                    jQuery('#calculate_shipping').html('Frete <strong>' + formattedAverage + '</strong>');
                 }
             },
             error: function(err) {
@@ -61,16 +62,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
     requestAnimationFrame(checkCep); // inicia o loop
 
-    jQuery(document).on('submit_success', function(event, response) {
+    jQuery('#tok_mp_subscriptions_plan_form').on('submit_success', function(event, response) {
         const customerMail = response.data.customer_mail;
 
-        let result;
-        try {
-            result = (typeof customerMail === 'string') ? JSON.parse(customerMail.replace(/\*/g, '"')) : customerMail;
-        } catch(e) {
-            result = customerMail;
+        jQuery('#tok_mp_subscriptions_plan_form .elementor-button-text').text(customerMail.message);
+
+        console.log(customerMail);
+
+        if ( customerMail.success ) {
+            window.open(customerMail.data.init_point, '_blank');
+        } else {
+            return;
         }
 
-        console.log(result);
     });
 });

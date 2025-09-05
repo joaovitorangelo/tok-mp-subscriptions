@@ -4,6 +4,8 @@ namespace Tok\MPSubscriptions\Frontend;
 
 use Tok\MPSubscriptions\Core\Services\MelhorEnvio;
 
+use Tok\MPSubscriptions\Core\Services\ViaCep;
+
 use Tok\MPSubscriptions\Core\Services\Payloads\PayloadBuilderFactory;
 
 class Ajax {
@@ -38,20 +40,29 @@ class Ajax {
             ]);
         }
 
-        // Cria o serviço de frete
-        $shippingService = new MelhorEnvio();
-        $shippingService->init();
+        $viaCep = new ViaCep();
+        $dadosCep = $viaCep->consult($fields['cep']['value']);
 
-        // Calcula o frete
-        $shipping = $shippingService->request_shipping_quote($payload);
+        // Verifica se o CEP é de Imbituba
+        if ($dadosCep && $dadosCep['localidade'] !== 'Imbituba') {
+            // Cria o serviço de frete
+            $shippingService = new MelhorEnvio();
+            $shippingService->init();
 
-        // Calcula a média
-        $averagePrice = $shippingService->calculate_average_price($shipping ?? []);
+            // Calcula o frete
+            $shipping = $shippingService->request_shipping_quote($payload);
+
+            // Calcula a média
+            $averagePrice = $shippingService->calculate_average_price($shipping ?? []);
+        } else {
+            // Define valor de frete como 0 ou algo específico
+            $averagePrice = 0;
+        }
 
         wp_send_json([
             'success' => true,
             'message' => 'Cotação de frete feita com sucesso!',
-            'data'    => $shipping,
+            'data'    => $dadosCep['localidade'],
             'average' => $averagePrice
         ]);
 

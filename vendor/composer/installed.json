@@ -624,6 +624,7 @@
             "install-path": "../mtdowling/jmespath.php"
         },
         {
+<<<<<<< HEAD
             "name": "myclabs/deep-copy",
             "version": "1.13.4",
             "version_normalized": "1.13.4.0",
@@ -1311,6 +1312,8 @@
             "install-path": "../phpunit/phpunit"
         },
         {
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
             "name": "psr/http-client",
             "version": "1.0.3",
             "version_normalized": "1.0.3.0",
@@ -1580,6 +1583,7 @@
             "install-path": "../ralouphie/getallheaders"
         },
         {
+<<<<<<< HEAD
             "name": "sebastian/cli-parser",
             "version": "2.0.1",
             "version_normalized": "2.0.1.0",
@@ -2554,6 +2558,8 @@
             "install-path": "../sebastian/version"
         },
         {
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
             "name": "sentry/sentry",
             "version": "4.15.2",
             "version_normalized": "4.15.2.0",
@@ -2876,6 +2882,7 @@
                 }
             ],
             "install-path": "../symfony/polyfill-mbstring"
+<<<<<<< HEAD
         },
         {
             "name": "theseer/tokenizer",
@@ -2960,4 +2967,10 @@
         "sebastian/version",
         "theseer/tokenizer"
     ]
+=======
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
 }

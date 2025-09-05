@@ -2,7 +2,7 @@
 /*
 Plugin Name: Tok Mercado Pago Subscriptions
 Description: Integração com Mercado Pago e Melhor Envio para a criação de planos de assinatura personalizados.
-Version: 1.0.7
+Version: 1.0.8
 Author: Tok Digital
 Text Domain: tok-mp-subscriptions
 */
@@ -10,7 +10,7 @@ Text Domain: tok-mp-subscriptions
 defined( 'ABSPATH' ) || exit;
 
 // --- Constantes ---
-define( 'TOK_MPSUBS_PLUGIN_VERSION', '1.0.7' );
+define( 'TOK_MPSUBS_PLUGIN_VERSION', '1.0.8' );
 
 define( 'TOK_MPSUBS_PLUGIN_FILE', __FILE__ );
 
@@ -43,4 +43,6 @@ add_action('plugins_loaded', function(){
     $plugin = new \Tok\MPSubscriptions\Plugin();
     $plugin->run();
 });
+
+
 

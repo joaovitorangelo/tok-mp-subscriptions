@@ -6,6 +6,8 @@ use Tok\MPSubscriptions\Core\Services\MelhorEnvio;
 
 use Tok\MPSubscriptions\Core\Services\MercadoPago;
 
+use Tok\MPSubscriptions\Core\Services\ViaCep;
+
 use Tok\MPSubscriptions\Core\Services\Payloads\PayloadBuilderFactory;
 
 use Tok\MPSubscriptions\Infrastructure\ErrorHandler;
@@ -26,21 +28,30 @@ class SubscriptionsPlanForm {
             ];
         }
 
-        // Cria o serviço de frete
-        $shippingService = new MelhorEnvio();
-        $shippingService->init();
+        $viaCep = new ViaCep();
+        $dadosCep = $viaCep->consult($fields['cep']['value']);
 
-        // Calcula o frete
-        $shipping = $shippingService->request_shipping_quote($payload);
+        // Verifica se o CEP é de Imbituba
+        if ($dadosCep && $dadosCep['localidade'] !== 'Imbituba') {
+            // Cria o serviço de frete
+            $shippingService = new MelhorEnvio();
+            $shippingService->init();
 
-        // Calcula a média
-        $averagePrice = $shippingService->calculate_average_price($shipping ?? []);
+            // Calcula o frete
+            $shipping = $shippingService->request_shipping_quote($payload);
 
-        $fields['average_price']['value'] = $averagePrice; 
+            // Calcula a média
+            $averagePrice = $shippingService->calculate_average_price($shipping ?? []);
+        } else {
+            // Define valor de frete como 0 ou algo específico
+            $averagePrice = 0;
+        }
+
+        $fields['average_price']['value'] = $averagePrice;
 
         // Monta o payload com o builder
         try {
-            $builder = PayloadBuilderFactory::make('mercado_pago');
+            $builder = PayloadBuilderFactory::make('mercado_pago_plan');
             $payload = $builder->build($fields);
         } catch (\Throwable $e) { // Captura qualquer tipo de erro ou exceção
             ErrorHandler::report($e);
@@ -54,12 +65,13 @@ class SubscriptionsPlanForm {
         $planService = new MercadoPago();
         $planService->init();
 
+        // Cria o plano
         $plan = $planService->create_plan($payload);
-        
+
         return [
-            'success'   =>  true,
-            'message'   =>  'Plano de Assinatura feito com sucesso!',
-            'data'      =>  $plan,
+            'success'       => true,
+            'message'       => 'Plano e assinatura criados com sucesso!',
+            'data'          => $plan,
         ];
 
     }

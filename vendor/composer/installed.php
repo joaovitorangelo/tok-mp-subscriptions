@@ -1,9 +1,15 @@
 <?php return array(
     'root' => array(
         'name' => 'tok/mp-subscriptions',
+<<<<<<< HEAD
         'pretty_version' => '1.0.0+no-version-set',
         'version' => '1.0.0.0',
         'reference' => null,
+=======
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => 'ed63d90ae23bd092b5b049837e27e6d127b14658',
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -73,6 +79,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'myclabs/deep-copy' => array(
             'pretty_version' => '1.13.4',
             'version' => '1.13.4.0',
@@ -163,6 +170,8 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
         'psr/http-client' => array(
             'pretty_version' => '1.0.3',
             'version' => '1.0.3.0',
@@ -226,6 +235,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'sebastian/cli-parser' => array(
             'pretty_version' => '2.0.1',
             'version' => '2.0.1.0',
@@ -361,6 +371,8 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+=======
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
         'sentry/sentry' => array(
             'pretty_version' => '4.15.2',
             'version' => '4.15.2.0',
@@ -397,6 +409,7 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+<<<<<<< HEAD
         'theseer/tokenizer' => array(
             'pretty_version' => '1.2.3',
             'version' => '1.2.3.0',
@@ -410,6 +423,12 @@
             'pretty_version' => '1.0.0+no-version-set',
             'version' => '1.0.0.0',
             'reference' => null,
+=======
+        'tok/mp-subscriptions' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => 'ed63d90ae23bd092b5b049837e27e6d127b14658',
+>>>>>>> 6cc87b3ac6cc76606b97116b3bf3c1db769a56e4
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

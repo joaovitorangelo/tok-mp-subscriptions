@@ -74,13 +74,12 @@ class MercadoPago {
      * 
      * Vincula o cliente em um Plano de Assinatura
      */
-    private function create_subscription($plan_id, $user_id) {
+    public function create_subscription($plan_id, $payer_email) {
         $url = 'https://api.mercadopago.com/preapproval';
         $body = [
-            'plan_id' => $plan_id,
-            'payer_email' => wp_get_current_user()->user_email
+            'preapproval_plan_id'   =>  $plan_id,
+            'payer_email'           =>  $payer_email,
         ];
-
         return $this->client->post($url, $body);
     }
 }

@@ -40,13 +40,13 @@ class HttpClient
                 'region'        =>  'us-east-2',
                 'version'       =>  'latest',
                 'credentials'   =>  [ // Armazenar credenciais em um local seguro
-                    'key'       =>  'AKIA4LF2YEB5V5AGKA6X',
-                    'secret'    =>  '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'
+                    'key'       =>  '',
+                    'secret'    =>  ''
                 ]
             ]);
 
             // URL da fila SQS
-            $this->queueUrl = 'https://sqs.us-east-2.amazonaws.com/848647692411/tok-mp-subscriptions-jobs';
+            $this->queueUrl = '';
 
             $send = $this->sqsClient->sendMessage([
                 'QueueUrl'    => $this->queueUrl,

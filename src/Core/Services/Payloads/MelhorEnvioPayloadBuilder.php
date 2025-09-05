@@ -16,8 +16,6 @@ class MelhorEnvioPayloadBuilder implements PayloadBuilderInterface {
 
         $cep = preg_replace('/\D/', '', $fields['cep']['value']);
 
-        $price = (float) get_post_meta( $post_id, '_plan_price', true );
-
         $quantity = (int) get_post_meta( $post_id, '_plan_quantity', true );
 
         $unitary_value = (float) get_post_meta( $post_id, '_plan_unitary_value', true );

@@ -6,7 +6,7 @@ class PayloadBuilderFactory {
     public static function make(string $service): PayloadBuilderInterface {
         return match ($service) {
             'melhor_envio' => new MelhorEnvioPayloadBuilder(),
-            'mercado_pago' => new MercadoPagoPayloadBuilder(),
+            'mercado_pago_plan' => new MercadoPagoPlanPayloadBuilder(),
             default => throw new \InvalidArgumentException("Builder para {$service} não encontrado")
         };
     }
