@@ -1,6 +1,6 @@
 # Tok Mercado Pago Subscriptions
 
-**Versão:** 1.0.8  
+**Versão:** 1.1.0  
 **Autor:** Tok Digital  
 **Descrição:** Integração com Mercado Pago e Melhor Envio para criação de planos de assinatura personalizados no WordPress.
 

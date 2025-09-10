@@ -1,1 +1,0 @@
-{"version":1,"defects":{"AwsTest::testCanRetrieveSecret":8,"AwsTest::testCanSendMessageToSqs":8},"times":{"AwsTest::testCanRetrieveSecret":17.677,"AwsTest::testCanSendMessageToSqs":13.262}}

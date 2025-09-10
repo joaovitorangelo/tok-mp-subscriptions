@@ -6,6 +6,13 @@ use Tok\MPSubscriptions\Core\Services\MercadoPago;
 
 defined('ABSPATH') || exit;
 
+/**
+ * Classe para gerenciar assinaturas do Mercado Pago no WordPress
+ * 
+ * Realiza operações como atualização de status e armazenamento de assinaturas.
+ * 
+ * Revisar ainda...
+ */
 class SubscriptionManager {
 
     private MercadoPago $mp;

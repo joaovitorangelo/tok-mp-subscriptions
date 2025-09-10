@@ -48,6 +48,21 @@ class Admin {
         $this->add_field('MP_PUBLIC_KEY', 'MP_PUBLIC_KEY');
         $this->add_field('MP_ACCESS_TOKEN', 'MP_ACCESS_TOKEN');
         $this->add_field('ME_ACCESS_TOKEN', 'ME_ACCESS_TOKEN');
+
+        $this->add_field('FIREBASE_VAPIDKEY', 'FIREBASE_VAPIDKEY');
+        $this->add_field('FIREBASE_SERVICE_ACCOUNT', 'FIREBASE_SERVICE_ACCOUNT');
+        $this->add_field('FIREBASE_API_KEY', 'FIREBASE_API_KEY');
+        $this->add_field('FIREBASE_AUTH_DOMAIN', 'FIREBASE_AUTH_DOMAIN');
+        $this->add_field('FIREBASE_PROJECT_ID', 'FIREBASE_PROJECT_ID');
+        $this->add_field('FIREBASE_STORAGE_BUCKET', 'FIREBASE_STORAGE_BUCKET');
+        $this->add_field('FIREBASE_MESSAGING_SENDER_ID', 'FIREBASE_MESSAGING_SENDER_ID');
+        $this->add_field('FIREBASE_APP_ID', 'FIREBASE_APP_ID');
+        $this->add_field('FIREBASE_MEASUREMENT_ID', 'FIREBASE_MEASUREMENT_ID');
+
+        $this->add_field('AWS_REGION', 'AWS_REGION');
+        $this->add_field('AWS_ACCOUNT_ID', 'AWS_ACCOUNT_ID');
+        $this->add_field('AWS_KEY', 'AWS_KEY');
+        $this->add_field('AWS_SECRET', 'AWS_SECRET');
         // Adicione outros campos conforme necessário
     }
 
@@ -64,7 +79,27 @@ class Admin {
 
     public function render_field($args) {
         $value = Plugin::get_option($args['id']);
-        $sensitive = in_array($args['id'], ['MP_PUBLIC_KEY', 'MP_ACCESS_TOKEN', 'ME_ACCESS_TOKEN']);
+        $sensitive = in_array(
+            $args['id'], 
+            [
+                'MP_PUBLIC_KEY', 
+                'MP_ACCESS_TOKEN', 
+                'ME_ACCESS_TOKEN',
+                'FIREBASE_VAPIDKEY',
+                'FIREBASE_SERVICE_ACCOUNT',
+                'FIREBASE_API_KEY',
+                'FIREBASE_AUTH_DOMAIN',
+                'FIREBASE_PROJECT_ID',
+                'FIREBASE_STORAGE_BUCKET',
+                'FIREBASE_MESSAGING_SENDER_ID',
+                'FIREBASE_APP_ID',
+                'FIREBASE_MEASUREMENT_ID',
+                'AWS_REGION',
+                'AWS_ACCOUNT_ID',
+                'AWS_KEY',
+                'AWS_SECRET'
+            ]
+        );
 
         // Se for sensível e já tiver valor, mostra placeholder ********
         $display_value = $sensitive && !empty($value) ? '********' : $value;

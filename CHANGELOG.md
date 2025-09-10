@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.8] - 2025-09-10
+Ajustes no processamento da fila SQS
+
+## [1.0.8] - 2025-09-08
+Armazenando FCM Token no banco.
+Carregando templates de email de forma dinâmica.
+Adicionado novos campos no Admin.
+
 ## [1.0.8] - 2025-09-05
 Webhook Mercado Pago
 - Implementado Webhook para receber notificações de assinaturas (preapproval).

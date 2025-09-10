@@ -9,7 +9,8 @@
     },
     "require": {
         "sentry/sentry": "^4.15",
-        "aws/aws-sdk-php": "^3.356"
+        "aws/aws-sdk-php": "^3.356",
+        "google/auth": "^1.47"
     },
     "require-dev": {
         "phpunit/phpunit": "10"
@@ -18,4 +19,3 @@
         "test": "phpunit"
     }
 }
-

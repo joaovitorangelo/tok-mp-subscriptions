@@ -12,7 +12,7 @@ use Tok\MPSubscriptions\Core\Services\Payloads\PayloadBuilderFactory;
 
 use Tok\MPSubscriptions\Infrastructure\ErrorHandler;
 
-use FcmDispatcher\FcmDispatcher;
+use Tok\MPSubscriptions\Core\Services\PushNotifications;
 
 use Tok\MPSubscriptions\Frontend\EmailHelper;
 
@@ -79,40 +79,31 @@ class SubscriptionsPlanForm {
             $plan = $planService->create_plan($payload);
         }
 
-        // Dispara email com wp_mail ou sendpulse?
-        $to = $fields['email']['value'];
-        $subject = 'Plano de assinatura ' . get_the_title( $fields['post_id']['value'] );
-        $message = 'Olá! Clique no link para continuar e concluir a compra do seu plano: ' . $plan['init_point'];
-        $headers = array('Content-Type: text/html; charset=UTF-8');
-        wp_mail($to, $subject, $message, $headers);
+        // Monta os dados do template do email
+        $email_html = EmailHelper::get_template('subscription_notification', [
+            'user_name' => $fields['name']['value'] ?? 'Cliente',
+            'plan_link' => $plan['init_point'],
+            'subject'   => 'Plano de assinatura ' . get_the_title($fields['post_id']['value']),
+        ]);
 
-        // Monta os dados do template
-        // $email_html = EmailHelper::get_template('subscription_confirmation', [
-        //     'user_name' => $fields['name']['value'] ?? 'Cliente',
-        //     'plan_link' => $plan['init_point'],
-        //     'subject'   => 'Plano de assinatura ' . get_the_title($fields['post_id']['value']),
-        // ]);
-
-        // // Envia o email
-        // wp_mail(
-        //     $fields['email']['value'],
-        //     'Plano de assinatura ' . get_the_title($fields['post_id']['value']),
-        //     $email_html,
-        //     ['Content-Type: text/html; charset=UTF-8']
-        // );
+        // Envia o email
+        wp_mail(
+            $fields['email']['value'],
+            'Plano de assinatura ' . get_the_title($fields['post_id']['value']),
+            $email_html,
+            ['Content-Type: text/html; charset=UTF-8']
+        );
         
         // Dispara notificação push
-        if (class_exists('FcmDispatcher\FcmDispatcher')) {
-            $config = array(
-                'notification_type'                 =>  'individual',
-                'user_email'                        =>  $fields['email']['value'],
-                'title'                             =>  'Plano de assinatura ' . get_the_title( $fields['post_id']['value'] ),
-                'body'                              =>  'Clique aqui para continuar e concluir a compra do seu plano de assinatura.',
-                'image'                             =>  'https://cervejaimbe.com.br/tok-2023/wp-content/uploads/2024/02/marca-cervejaria-imbe-300x300.png',
-                'link'                              =>  $plan['init_point']
-            );
-            $response = (new FcmDispatcher())->sendToUserByEmail($config);
-        }
+        $pushService = new PushNotifications();
+        $pushService->init();
+
+        $push = $pushService->send_to_user_by_email([
+            'email' => $fields['email']['value'],
+            'title' => 'Plano de assinatura ' . get_the_title( $fields['post_id']['value'] ),
+            'body'  => 'Clique aqui para continuar e concluir a compra do seu plano de assinatura.',
+            'link'  => $plan['init_point']
+        ]);
 
         return [
             'success'       => true,

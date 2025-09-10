@@ -1,0 +1,33 @@
+## Enviar mensagem de teste
+aws sqs send-message \
+  --region us-east-2 \
+  --queue-url https://sqs.us-east-2.amazonaws.com/848647692411/tok-mp-subscriptions-jobs.fifo \
+  --message-body '{"foo":"teste-cli"}' \
+  --message-group-id default \
+  --message-deduplication-id $(date +%s%N)
+
+Receber mensagem de teste da fila
+aws sqs receive-message \
+  --region us-east-2 \
+  --queue-url https://sqs.us-east-2.amazonaws.com/848647692411/tok-mp-subscriptions-jobs.fifo \
+  --max-number-of-messages 10
+
+Log
+joaov@DESKTOP-I3H8V3B MINGW64 /c/xampp/htdocs/projects/jradamver-atletasmormaii/wp-content/plugins/tok-mp-subscriptions
+$ aws sqs receive-message \
+>   --region us-east-2 \
+>   --queue-url https://sqs.us-east-2.amazonaws.com/848647692411/tok-mp-subscriptions-jobs.fifo \
+>   --max-number-of-messages 10
+{
+    "Messages": [
+        {
+            "MessageId": "a10dec94-ad21-43f8-b668-4340414b76a3",
+            "ReceiptHandle": "AQEBd03RHobijDrSC2JKp/U3C3gmdWc0JE+OmrJNxChFm1brgEBrNFDHkfsjJNBYH0t0YE8j0O8Wv8rUwzO6qWVflqQliLR0CaYpP+sp1Pzy61+tnzSTtFwHfzXx8ekbeVG7fyBeCbf0xSvegmpGwlxiTNflV+4q0ISM4K5nyPuL+R16ufQ7KCOpCoa0q84WlV/2aDfjwzMe+X2GjY0PAbfS3b4TmMFaHgcfZ8kL+j6hQB4WZRdzAHbtrIHRaHe0sotT6Naz2JBUehJ6S1v6NC80u1cdzgDKdpFTF2F49fCBMJOx7Rvaqa9svhjTCJ6hyQD2",
+            "MD5OfBody": "561588d930699953c79bb23a47ab22fa",
+            "Body": "{\"foo\":\"teste-cli\"}"
+        },
+        {
+            "MessageId": "4c2e80ec-a421-4622-b2c8-ae43fe43c9ee",
+            "ReceiptHandle": "AQEBr5GcZ95s6TsEFpiiBTaOHlaxUWf3JfPvEC/ydU+5ofp/cO94hYZbFaTnEK2GEAJxuCe5JbyGQW7Qpzi8UkJL5rTp3beXeqntEpdVuEVpxFUB4GynK/sUJgrvo3d61FLpZMM1KfN1VepmTtBqWbYzw+mRgxmWUB8JXYkiwM3sNYOG0PFGeaoMIDbXM9QaByqGfHcOZRud9GCLaLsldGI43in2iHeuI/eY+9Zbkhy74NsYwB2SdCWVk7HIJOxuHutlCEirCCpb6wDdkB2TqfMX4lbe22rOpjPNcC+vtOffPZJlLgYBSxEjz5JmA7WpRN3E",
+            "MD5OfBody": "561588d930699953c79bb23a47ab22fa",
+-- Mais  --

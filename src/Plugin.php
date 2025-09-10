@@ -4,15 +4,15 @@ namespace Tok\MPSubscriptions;
 
 use Tok\MPSubscriptions\Admin;
 
-use Tok\MPSubscriptions\Core\Services\MercadoPago;
-
-use Tok\MPSubscriptions\Core\Services\MelhorEnvio;
-
 use Tok\MPSubscriptions\Core\PostTypes\CustomPostType;
+
+use Tok\MPSubscriptions\Core\Security\Crypto;
 
 use Tok\MPSubscriptions\Core\PostTypes\Taxonomy;
 
-use Tok\MPSubscriptions\Core\Security\Crypto;
+use Tok\MPSubscriptions\Core\Services\MercadoPago;
+
+use Tok\MPSubscriptions\Core\Services\MelhorEnvio;
 
 use Tok\MPSubscriptions\Frontend\Forms;
 
@@ -23,7 +23,7 @@ use Tok\MPSubscriptions\Frontend\Handlers\WebhookHandler;
 defined('ABSPATH') || exit;
 
 /**
- * Tok_Plugin
+ * Plugin
  * 
  * É a classe principal do plugin.
  * 
@@ -35,66 +35,91 @@ defined('ABSPATH') || exit;
  * Basicamente, é o ponto de entrada do plugin.
  */
 class Plugin {
-
     private $admin;
     private $mp;
     private $me;
     private $cpts = [];
-    private static $secret_key; // <-- chave secreta
+    private static $secret_key;
 
-    public function __construct() {
+    public function __construct() 
+    {
         self::init_secret_key();
 
         $this->admin = new Admin();
-        $this->mp    = new MercadoPago();
-        $this->me    = new MelhorEnvio();
 
-        // Registrar seus Custom Post Types
+        // Registrar Custom Post Types
         $this->register_post_types();
+        
+        $this->mp = new MercadoPago();
+        $this->me = new MelhorEnvio();
     }
 
-    public function run() {
-        if(is_admin()){
-            $this->admin->init();
-        }
+    /**
+     * run
+     * 
+     * Roda o plugin.
+     */
+    public function run() 
+    {
+        if( is_admin() ) $this->admin->init();
 
         $this->mp->init();
         $this->me->init();
 
         add_action('wp_enqueue_scripts', [$this, 'enqueue_scripts']);
+
+        add_filter('script_loader_tag', [$this, 'add_type_module_attribute'], 10, 3);
         
-        if ( defined('ELEMENTOR_PRO_VERSION') ) {
-            Forms::init();
-        }
+        if ( defined('ELEMENTOR_PRO_VERSION') ) Forms::init();
 
         Ajax::init();
+
         WebhookHandler::init(); 
     }
 
     /**
      * Importa JS e CSS do frontend
      */
-    public function enqueue_scripts() {
-
+    public function enqueue_scripts() 
+    {
         wp_enqueue_script(
-            'tok-mp-subscriptions-main',
-            TOK_MPSUBS_PLUGIN_URL . 'src/Frontend/assets/js/main.js',
-            ['jquery'], // dependências
-            '1.0.0',
-            true // carregamento no footer
+            'tok-mp-subs-main', 
+            TOK_MPSUBS_PLUGIN_URL . 'src/Frontend/assets/js/main.js', 
+            ['jquery'], 
+            '1.0.0', 
+            true
         );
 
-        wp_localize_script('tok-mp-subscriptions-main', 'tok_mp_subscriptions_ajax_obj', [
-            'ajax_url' => admin_url('admin-ajax.php'),
-            'nonce'    => wp_create_nonce('tok_nonce'),
-        ]);
+        wp_enqueue_script(
+            'tok-mp-subs-push',
+            TOK_MPSUBS_PLUGIN_URL . 'src/Frontend/assets/js/push.js',
+            ['jquery'],
+            '1.0.0',
+            true
+        );
 
-        // wp_enqueue_style(
-        //     'tok-mp-subscriptions-style',
-        //     TOK_MPSUBS_PLUGIN_URL . 'src/Frontend/assets/css/main.css',
-        //     [],
-        //     '1.0.0'
-        // );
+        wp_localize_script('tok-mp-subs-main', 'tok_mp_subs', [
+            'ajax_url'                      =>  admin_url('admin-ajax.php'),
+            'nonce'                         =>  wp_create_nonce('tok_nonce'),
+            'plugin_url'                    =>  TOK_MPSUBS_PLUGIN_URL,
+            'firebase_service_account'      =>  json_decode(Plugin::get_option('FIREBASE_SERVICE_ACCOUNT'), true),
+            'firebase_vapid_key'            =>  Plugin::get_option('FIREBASE_VAPIDKEY'),
+            'firebase_api_key'              =>  Plugin::get_option('FIREBASE_API_KEY'),
+            'firebase_auth_domain'          =>  Plugin::get_option('FIREBASE_AUTH_DOMAIN'),
+            'firebase_project_id'           =>  Plugin::get_option('FIREBASE_PROJECT_ID'),
+            'firebase_storage_bucket'       =>  Plugin::get_option('FIREBASE_STORAGE_BUCKET'),
+            'firebase_messaging_sender_id'  =>  Plugin::get_option('FIREBASE_MESSAGING_SENDER_ID'),
+            'firebase_app_id'               =>  Plugin::get_option('FIREBASE_APP_ID'),
+            'firebase_measurement_id'       =>  Plugin::get_option('FIREBASE_MEASUREMENT_ID'),
+        ]);
+    }
+
+    public function add_type_module_attribute($tag, $handle, $src) {
+        $module_scripts = ['tok-mp-subs-main', 'tok-mp-subs-push'];
+        if ( in_array( $handle, $module_scripts ) ) {
+            $tag = '<script type="module" src="' . esc_url( $src ) . '"></script>';
+        }
+        return $tag;
     }
 
     /**
@@ -145,18 +170,4 @@ class Plugin {
 
         self::$secret_key = $key;
     }
-
-    public function setup_webhook() {
-        $this->mp->init();
-
-        $webhook_url = home_url('/wp-json/tok-mp-subs/v1/webhook');
-
-        try {
-            $this->mp->configure_webhook($webhook_url);
-            error_log("Webhook do Mercado Pago configurado com sucesso: " . $webhook_url);
-        } catch (\Exception $e) {
-            error_log("Erro ao configurar webhook do Mercado Pago: " . $e->getMessage());
-        }
-    }
-
 }

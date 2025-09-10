@@ -67,8 +67,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         jQuery('#tok_mp_subscriptions_plan_form .elementor-button-text').text(customerMail.message);
 
-        console.log(customerMail);
-
         if ( customerMail.success ) {
             window.open(customerMail.data.init_point, '_blank');
         } else {

@@ -29,7 +29,8 @@ class MercadoPago {
     private $client;
 
     public function init() {
-        $this->access_token = Plugin::get_option('MP_ACCESS_TOKEN', '', true);
+        // $this->access_token = Plugin::get_option('MP_ACCESS_TOKEN', '', true);
+        $this->access_token = 'TEST-4483457805093712-082916-ff67e799d0071665b5862f7c82397e33-1923849358';
         if (!$this->access_token) {
             ErrorHandler::reportMessage("MercadoPago: token não definido");
             return;
@@ -96,7 +97,27 @@ class MercadoPago {
      */
     public function create_plan($data) {
         $url = 'https://api.mercadopago.com/preapproval_plan';
-        return $this->client->post($url, $data);
+
+        try {
+            $response = $this->post($url, $data);
+
+            // Aqui você pode verificar se a criação deu certo
+            if (isset($response['status']) && $response['status'] >= 400) {
+                throw new \Exception('Erro ao criar plano: ' . json_encode($response));
+            }
+
+            return $response;
+
+        } catch (\Exception $e) {
+            // Envia para a fila SQS para tentar novamente depois
+            $this->sendToSqs('POST', $url, $data);
+
+            // Log do erro para debug
+            error_log("Falha ao criar plano. Enviado para SQS: " . $e->getMessage());
+
+            // Retorna false ou null para indicar falha
+            return null;
+        }
     }
 
     /**
